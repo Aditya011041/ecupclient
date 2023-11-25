@@ -16,7 +16,6 @@ body {
     font-family: 'Chivo', sans-serif;
     display: flex;
     justify-content: center;
-    background-color: #03d1d1
 }
 .title{
     font-size: 24px;
@@ -89,7 +88,6 @@ button {
     height: 284px;
     /* top: 163px; */
     border: 0.25px, 0px, 0px, 0px;
-    /* background-color: #fffcf2; */
 }
 .block2{
     padding: 20px;
@@ -99,7 +97,6 @@ button {
     height: 284px;
     /* top: 163px; */
     border: 0.25px, 0px, 0px, 0px;
-    /* background-color: #ffffff; */
 }
 
 .left {
