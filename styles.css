@@ -77,6 +77,10 @@ button {
     padding: 0;
 }
 
+#listingsContainer div:nth-child(odd) {
+    background-color: #fffcf2;
+}
+
 .block1 {
     padding: 20px;
     display: flex;
