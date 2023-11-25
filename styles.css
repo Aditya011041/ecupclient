@@ -76,7 +76,7 @@ button {
     background: none;
     padding: 0;
 }
-.ulcont > :nth-child(odd) {
+.ulcont > li:nth-child(odd) {
     background-color: #22eb22;
 }
 
