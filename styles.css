@@ -76,9 +76,8 @@ button {
     background: none;
     padding: 0;
 }
-
 .ulcont > :nth-child(odd) {
-    background-color: #f2fff2;
+    background-color: #22eb22;
 }
 
 .block1 {
@@ -89,6 +88,7 @@ button {
     height: 284px;
     /* top: 163px; */
     border: 0.25px, 0px, 0px, 0px;
+    /* background-color: #fffcf2; */
 }
 .block2{
     padding: 20px;
@@ -98,6 +98,7 @@ button {
     height: 284px;
     /* top: 163px; */
     border: 0.25px, 0px, 0px, 0px;
+    /* background-color: #ffffff; */
 }
 
 .left {
