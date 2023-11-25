@@ -1,0 +1,168 @@
+@import url('https://fonts.googleapis.com/css2?family=Chivo:wght@400;600;800&display=swap');
+
+/* html {
+    font-size: 62.5%;
+} */
+
+* {
+    margin: 0;
+    padding: 0;
+    font-weight: 400;
+    
+}
+
+body {
+    /* background-color: green; */
+    font-family: 'Chivo', sans-serif;
+    display: flex;
+    justify-content: center;
+}
+.title{
+    font-size: 24px;
+    /* line-height: 28.56px; */
+    color:  #716966;
+    font-weight: 600;
+}
+
+.landing-page {
+    /* background-color: red; */
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 360px;
+    border: 0.25px solid #D0D0D0;
+}
+
+.nav {
+    padding: 10px;
+    /* background-color: aqua; */
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Updated to space-between */
+    border-bottom: 0.25px solid #D0D0D0;
+    padding-inline: 20px;
+}
+
+.logo {
+    /* background-color: purple; */
+    /* Remove margin-left and padding-right */
+}
+
+.nav2 {
+    background-color: #fff;
+    display: flex;
+    padding-top: 10px;
+    justify-content: space-between;
+    border-bottom: 0.25px solid #D0D0D0;
+    padding-inline-start: 20px;
+}
+
+.part1 {
+    width: 40%;
+    display: flex;
+    justify-content: space-between;
+}
+.part2{
+width: 35%;
+display: flex;
+justify-content: space-evenly;
+}
+
+button {
+    border: none;
+    outline: none;
+    background: none;
+    padding: 0;
+}
+
+.block1 {
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    /* width: 360px; */
+    height: 284px;
+    /* top: 163px; */
+    border: 0.25px, 0px, 0px, 0px;
+    background-color: #fffcf2;
+}
+.block2{
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    /* width: 360px; */
+    height: 284px;
+    /* top: 163px; */
+    border: 0.25px, 0px, 0px, 0px;
+    background-color: #ffffff;
+}
+
+.left {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-right: 0.25px solid #D0D0D0;
+    padding-right: 50px;
+
+}
+
+.heading {
+    height: 21px;
+    font-weight: 600;
+    font-size: large;
+    font-size: 18px;
+}
+
+.rate1 {
+    width: 96px;
+    height: 16px;
+}
+.number{
+    font-size: 16px;
+    padding-top: 33px;
+}
+
+.right {
+    /* width: 18%; */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    /* margin-left: auto; */
+    /* background-color: blue; */
+}
+
+.rate1 {
+    margin-top: 10px;
+}
+
+.content1{
+    font-family: 'Chivo', sans-serif;
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 11.9px;
+    padding-top: 20px;
+}
+
+.bio1 {
+    padding-top: 21px;
+    display: flex;
+    justify-content: space-between;
+}
+.projects1{
+    display: flex;
+    flex-direction: column;
+}
+.count1{
+    font-size: 24px;
+    font-weight: 600;
+    color: #000000;
+}
+.count_title1{
+    font-size: 10px;
+}
+.section{
+    border-bottom: 0.25px solid #D0D0D0;
+}
