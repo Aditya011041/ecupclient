@@ -183,7 +183,7 @@
         const shortlistedImage = document.querySelector('.shortlisted img');
         let isShortlistActive = true;
         const shortlistImage = 'shortlist_items.svg';
-        const groupImage = 'Group 10.png';
+        const groupImage = 'Group 10.svg';
 
         if (shortlistedImage) {
           shortlistedImage.addEventListener('click', function () {
@@ -193,10 +193,10 @@
 
         function toggleShortlistImage() {
           if (isShortlistActive) {
-            // If the current image is shortlist_items.svg, change it to Group 10.png
+            // If the current image is shortlist_items.svg, change it to Group 10.svg
             shortlistedImage.src = groupImage;
           } else {
-            // If the current image is Group 10.png or any other image, change it to shortlist_items.svg
+            // If the current image is Group 10.svg or any other image, change it to shortlist_items.svg
             shortlistedImage.src = shortlistImage;
           }
           isShortlistActive = !isShortlistActive;
