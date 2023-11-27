@@ -2,67 +2,333 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#000000">
-    <title>Landing Page</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Chivo%3A400">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro%3A400">
-    <link rel="stylesheet" href="styles.css" />
-    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='script.js') }}" /> -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#000000">
+  <title>Landing Page</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Chivo%3A400">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro%3A400">
+  <link rel="stylesheet" href="styles.css" />
 </head>
 
 <body>
-    <div class="landing-page">
-        <div class="nav">
-            <div class="logo">
-                <button>
-                    <img src="logo-small 1.png">
-                </button>
-            </div>
-            <div class="title">
-                Empty Cup
-            </div>
-            <div class="menu">
-                <button>
-                    <img src="menu_dots.svg">
-                </button>
-            </div>
-        </div>
-        <div class="nav2">
-            <div class="part1">
-                <div class="contacts">
-                    <button>
-                        <img src="contacts.svg">
-                    </button>
-                </div>
-                <div class="gallery">
-                    <button>
-                        <img src="gallery.svg">
-                    </button>
-                </div>
-                <div class="map">
-                    <button>
-                        <img src="maps.svg">
-                    </button>
-                </div>
-            </div>
-            <div class="part2">
-                <div class="shortlisted">
-                    <button>
-                        <img src="shortlist_items.svg">
-                    </button>
-                </div>
-                <div class="sort">
-                    <button>
-                        <img src="sort.svg">
-                    </button>
-                </div>
-            </div>
-        </div>
-        <ul class="ulcont" id="listingsContainer"></ul>
+  <div class="landing-page">
+    <div class="nav">
+      <div class="logo">
+        <button>
+          <img src="logo-small 1.png">
+        </button>
+      </div>
+      <div class="title">
+        Empty Cup
+      </div>
+      <div class="menu">
+        <button>
+          <img src="menu_dots.svg">
+        </button>
+      </div>
     </div>
-    <script src="script.js"></script>
+    <div class="nav2">
+      <div class="part1">
+        <div class="contacts">
+          <button>
+            <img src="contacts.svg">
+          </button>
+        </div>
+        <div class="gallery">
+          <button>
+            <img src="gallery.svg">
+          </button>
+        </div>
+        <div class="map">
+          <button>
+            <img src="maps.svg">
+          </button>
+        </div>
+      </div>
+      <div class="part2">
+        <div class="shortlisted">
+          <button>
+            <img src="shortlist_items.svg">
+          </button>
+        </div>
+        <div class="sort">
+          <button>
+            <img src="sort.svg">
+          </button>
+        </div>
+      </div>
+    </div>
+    <ul class="ulcont" id="listingsContainer"></ul>
+  </div>
+  <script>
+    let originalContentExists = false;
+    let galleryContentDisplayed = false;
+    // Function to create list items from JSON data
+    function createListItemsFromJSON(data) {
+      const listingsContainer = document.getElementById('listingsContainer');
+      data.forEach(item => {
+        const listItem = document.createElement('li');
+        listItem.classList.add('section');
+
+        listItem.innerHTML = `
+      <div class="block1">
+        <div class="left">
+          <div class="heading">${item.title}</div>
+          <div class="rate1">
+            <!-- Render the rating using the provided data -->
+            ${renderStars(item.rating)}
+          </div>
+          <div class="content1">${item.description}</div>
+          <div class="bio1">
+            <div class="projects1">
+              <p class="count1">${item.projectsCount}</p>
+              <p class="count_title1">projects</p>
+            </div>
+            <div class="years1">
+              <p class="count1">${item.yearsExperience}</p> 
+              <p class="count_title1">years</p> 
+            </div>
+            <div class="price1">
+              <p class="count1">${item.priceRange}</p> 
+              <p class="count_title1">price</p>
+            </div>
+          </div>
+          <div class="number">
+            <p>${item.contactNumbers[0]}</p>
+            <p>${item.contactNumbers[1]}</p>
+          </div>
+        </div>
+        <div class="right">
+          <!-- Buttons as per the original structure -->
+          <button>
+            <img src="details.svg">
+            <p style="font-size: 8px; color: #8D4337;">details</p>
+          </button>
+          <button>
+            <img src="hide.svg">
+            <p style="font-size: 8px; color: #8D4337;">hide</p>
+          </button>
+          <button>
+            <img src="shortlist.svg">
+            <p style="font-size: 8px; color: #8D4337;">shortlist</p>
+          </button>
+          <button>
+            <img src="report.svg">
+            <p style="font-size: 8px; color: #8D4337;">report</p>
+          </button>
+        </div>
+      </div>
+    `;
+
+        listingsContainer.appendChild(listItem);
+      });
+      function assignIndexToListItems() {
+        const listItems = document.querySelectorAll('.section');
+        listItems.forEach((item, index) => {
+          item.setAttribute('data-index', index + 1); // Assign a 'data-index' attribute with the index value starting from 1
+        });
+      }
+
+      // Function to update index after hiding elements
+      function updateIndicesAfterHide() {
+        const visibleItems = Array.from(document.querySelectorAll('.section:not([style*="display: none"])'));
+
+        visibleItems.forEach((item, index) => {
+          item.setAttribute('data-index', index + 1); // Update 'data-index' after hiding elements
+        });
+      }
+
+      // Function to update background colors of visible list items
+      function updateVisibleBackgroundColors() {
+        const visibleItems = Array.from(document.querySelectorAll('.section:not([style*="display: none"])'));
+
+        visibleItems.forEach(item => {
+          const index = parseInt(item.getAttribute('data-index'));
+          if (index % 2 !== 0) {
+            item.style.backgroundColor = '#eae3cb'; // Set background color for odd-indexed visible items
+          } else {
+            item.style.backgroundColor = '#ffffff'; // Set background color for even-indexed visible items
+          }
+        });
+      }
+      // Function to handle button actions
+      function handleButtonActions() {
+
+        const hideButtons = document.querySelectorAll('.right button:nth-child(2)');
+
+        hideButtons.forEach(button => {
+          button.addEventListener('click', function () {
+            const listItem = button.closest('.section');
+            listItem.style.display = 'none';
+
+            // Update indices and background colors after hiding
+            updateIndicesAfterHide();
+            updateVisibleBackgroundColors();
+          });
+        });
+
+        const shortlistButtons = document.querySelectorAll('.right button:nth-child(3)');
+
+        shortlistButtons.forEach(button => {
+          button.addEventListener('click', function () {
+            const icon = button.querySelector('img');
+            icon.src = icon.src.includes('shortlisted') ? 'shortlist.svg' : 'shortlisted.svg';
+
+            const listItem = button.closest('.section');
+            listItem.classList.toggle('shortlisted');
+          });
+        });
+
+        const shortlistedImage = document.querySelector('.shortlisted img');
+        let isShortlistActive = true;
+        const shortlistImage = 'shortlist_items.svg';
+        const groupImage = 'Group 10.png';
+
+        if (shortlistedImage) {
+          shortlistedImage.addEventListener('click', function () {
+            toggleShortlistImage();
+          });
+        }
+
+        function toggleShortlistImage() {
+          if (isShortlistActive) {
+            // If the current image is shortlist_items.svg, change it to Group 10.png
+            shortlistedImage.src = groupImage;
+          } else {
+            // If the current image is Group 10.png or any other image, change it to shortlist_items.svg
+            shortlistedImage.src = shortlistImage;
+          }
+          isShortlistActive = !isShortlistActive;
+        }
+        const shortlistedFilterButton = document.querySelector('.shortlisted button');
+        let isCurrentlyVisible = false;
+
+        shortlistedFilterButton.addEventListener('click', function () {
+          if (isCurrentlyVisible) {
+            showAllListings();
+          } else {
+            toggleListingsVisibility();
+          }
+          isCurrentlyVisible = !isCurrentlyVisible;
+          updateIndicesAfterHide();
+          updateVisibleBackgroundColors();
+        });
+      }
+
+      handleButtonActions();
+      originalContentExists = true;
+    }
+    function fetchOriginalListings() {
+      fetch('https://ecupserver.vercel.app/get_listings')
+        .then(response => response.json())
+        .then(data => {
+          createListItemsFromJSON(data);
+        })
+        .catch(error => console.error('Error fetching original data:', error));
+    }
+
+    // Functions for showing/hiding listings based on shortlist button image
+    function showAllListings() {
+      const listings = document.querySelectorAll('.section');
+      listings.forEach(listing => {
+        listing.style.display = 'block';
+      });
+    }
+
+    function toggleListingsVisibility() {
+      const listings = document.querySelectorAll('.section');
+      listings.forEach(listing => {
+        const shortlistButtonImg = listing.querySelector('button:nth-child(3) img');
+        const isVisible = shortlistButtonImg.src.includes('shortlisted');
+
+        if (isVisible) {
+          listing.style.display = 'block';
+        } else {
+          listing.style.display = 'none';
+        }
+      });
+    }
+
+    // Function to render star rating
+    function renderStars(rating) {
+      const filledStars = Math.floor(rating);
+      const hasHalfStar = rating % 1 !== 0;
+
+      let starsHTML = '';
+      for (let i = 0; i < filledStars; i++) {
+        starsHTML += '<img src="star_fill.svg">';
+      }
+      if (hasHalfStar) {
+        starsHTML += '<img src="half_star.svg">';
+      }
+      return starsHTML;
+    }
+
+    // Function to create image items dynamically
+    function createImageItems(images) {
+      const listingsContainer = document.getElementById('listingsContainer');
+      listingsContainer.innerHTML = ''; // Clear the existing content
+
+      images.forEach(imageSrc => {
+        const imageItem = document.createElement('li');
+        imageItem.style.padding = '20px';
+        imageItem.style.display = 'flex';
+        imageItem.style.justifyContent = 'space-between';
+        // Set other styles for the image item as needed
+
+        const imageElement = document.createElement('img');
+        imageElement.src = imageSrc;
+        imageElement.style.width = '100%'; // Set the image width to fill the container
+        imageElement.style.height = '100%'; // Set the image height to fill the container
+
+        imageItem.appendChild(imageElement);
+        listingsContainer.appendChild(imageItem);
+      });
+    }
+
+    // Function to handle gallery button click
+    // Function to handle gallery button click
+    function handleGalleryClick() {
+      const galleryButton = document.querySelector('.gallery button');
+      galleryButton.addEventListener('click', function () {
+        if (!galleryContentDisplayed) {
+          const images = ['z.png', 'z.png', 'z.png'];
+          createImageItems(images);
+          galleryContentDisplayed = true;
+        }
+      });
+    }
+
+    // Function to handle contacts button click
+    function handleContactsClick() {
+      const contactsButton = document.querySelector('.contacts button');
+      contactsButton.addEventListener('click', function () {
+        galleryContentDisplayed = false; // Reset the gallery flag when Contacts button is clicked
+        if (!originalContentExists) {
+          fetchOriginalListings(); // Render original content if not present
+        } else {
+          const listingsContainer = document.getElementById('listingsContainer');
+          listingsContainer.innerHTML = '';
+          fetchOriginalListings(); // Clear any images (gallery content) and render original content
+        }
+      });
+    }
+
+    // Function to clear existing content
+    function clearExistingContent() {
+      const listingsContainer = document.getElementById('listingsContainer');
+      listingsContainer.innerHTML = ''; // Clear the content of the container
+      originalContentExists = false; // Reset the flag as content is cleared
+    }
+
+    // Call the functions to handle button clicks
+    handleGalleryClick();
+    handleContactsClick();
+    window.addEventListener('load', function () {
+      fetchOriginalListings(); // Load original content when the page loads
+    });
+  </script>
 </body>
 
 </html>
