@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Chivo%3A400">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro%3A400">
   <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
 </head>
 
 <body>
@@ -61,10 +62,11 @@
     </div>
     <ul class="ulcont" id="listingsContainer"></ul>
   </div>
+  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
   <script>
     let originalContentExists = false;
     let galleryContentDisplayed = false;
-    // Function to create list items from JSON data
+
     function createListItemsFromJSON(data) {
       const listingsContainer = document.getElementById('listingsContainer');
       data.forEach(item => {
@@ -76,7 +78,6 @@
         <div class="left">
           <div class="heading">${item.title}</div>
           <div class="rate1">
-            <!-- Render the rating using the provided data -->
             ${renderStars(item.rating)}
           </div>
           <div class="content1">${item.description}</div>
@@ -100,7 +101,6 @@
           </div>
         </div>
         <div class="right">
-          <!-- Buttons as per the original structure -->
           <button>
             <img src="details.svg">
             <p style="font-size: 8px; color: #8D4337;">details</p>
@@ -123,38 +123,36 @@
 
         listingsContainer.appendChild(listItem);
       });
+
       function assignIndexToListItems() {
         const listItems = document.querySelectorAll('.section');
         listItems.forEach((item, index) => {
-          item.setAttribute('data-index', index + 1); // Assign a 'data-index' attribute with the index value starting from 1
+          item.setAttribute('data-index', index + 1);
         });
       }
 
-      // Function to update index after hiding elements
       function updateIndicesAfterHide() {
         const visibleItems = Array.from(document.querySelectorAll('.section:not([style*="display: none"])'));
 
         visibleItems.forEach((item, index) => {
-          item.setAttribute('data-index', index + 1); // Update 'data-index' after hiding elements
+          item.setAttribute('data-index', index + 1);
         });
       }
 
-      // Function to update background colors of visible list items
       function updateVisibleBackgroundColors() {
         const visibleItems = Array.from(document.querySelectorAll('.section:not([style*="display: none"])'));
 
         visibleItems.forEach(item => {
           const index = parseInt(item.getAttribute('data-index'));
           if (index % 2 !== 0) {
-            item.style.backgroundColor = '#fffcf2'; // Set background color for odd-indexed visible items
+            item.style.backgroundColor = '#fffcf2';
           } else {
-            item.style.backgroundColor = '#ffffff'; // Set background color for even-indexed visible items
+            item.style.backgroundColor = '#ffffff';
           }
         });
       }
-      // Function to handle button actions
-      function handleButtonActions() {
 
+      function handleButtonActions() {
         const hideButtons = document.querySelectorAll('.right button:nth-child(2)');
 
         hideButtons.forEach(button => {
@@ -162,7 +160,6 @@
             const listItem = button.closest('.section');
             listItem.style.display = 'none';
 
-            // Update indices and background colors after hiding
             updateIndicesAfterHide();
             updateVisibleBackgroundColors();
           });
@@ -199,6 +196,7 @@
           }
           isShortlistActive = !isShortlistActive;
         }
+
         const shortlistedFilterButton = document.querySelector('.shortlisted button');
         let isCurrentlyVisible = false;
 
@@ -217,6 +215,7 @@
       handleButtonActions();
       originalContentExists = true;
     }
+
     function fetchOriginalListings() {
       fetch('https://ecupserver.vercel.app/get_listings')
         .then(response => response.json())
@@ -226,7 +225,6 @@
         .catch(error => console.error('Error fetching original data:', error));
     }
 
-    // Functions for showing/hiding listings based on shortlist button image
     function showAllListings() {
       const listings = document.querySelectorAll('.section');
       listings.forEach(listing => {
@@ -248,7 +246,6 @@
       });
     }
 
-    // Function to render star rating
     function renderStars(rating) {
       const filledStars = Math.floor(rating);
       const hasHalfStar = rating % 1 !== 0;
@@ -263,146 +260,95 @@
       return starsHTML;
     }
 
-  
-    // Function to create image items dynamically with carousel functionality
     function createCarouselForListItem(listItem, images) {
-      const carouselContainer = document.createElement('div');
-  carouselContainer.classList.add('carousel-container');
+      const swiperContainer = document.createElement('div');
+      swiperContainer.classList.add('swiper-container');
 
-  images.forEach(imageSrc => {
-    const imageItem = document.createElement('div');
-    imageItem.classList.add('carousel-item');
-    imageItem.style.padding = '20px';
-    imageItem.style.display = 'none';
+      const swiperWrapper = document.createElement('div');
+      swiperWrapper.classList.add('swiper-wrapper');
 
-    const imageElement = document.createElement('img');
-    imageElement.src = imageSrc;
-    imageElement.style.width = '100%';
-    imageElement.style.height = '100%';
+      images.forEach(imageSrc => {
+        const swiperSlide = document.createElement('div');
+        swiperSlide.classList.add('swiper-slide');
 
-    imageItem.appendChild(imageElement);
-    carouselContainer.appendChild(imageItem);
-  });
+        const imageContainer = document.createElement('div');
+        imageContainer.classList.add('image-container');
+        imageContainer.style.padding = '13px';
+        const imageElement = document.createElement('img');
+        imageElement.src = imageSrc;
+        imageElement.style.width = '100%';
+        imageElement.style.height = '100%';
 
-  const carouselItems = carouselContainer.querySelectorAll('.carousel-item');
-  let currentIndex = 0;
-  let startX = 0;
-  let endX = 0;
-  const sensitivity = 50;
+        imageContainer.appendChild(imageElement);
+        swiperSlide.appendChild(imageContainer);
+        swiperWrapper.appendChild(swiperSlide);
+      });
 
-  function showImage(index) {
-    carouselItems.forEach((item, idx) => {
-      if (idx === index) {
-        item.style.display = 'block';
-      } else {
-        item.style.display = 'none';
-      }
-    });
-  }
+      swiperContainer.appendChild(swiperWrapper);
+      listItem.appendChild(swiperContainer);
 
-  function showNextImage() {
-    if (currentIndex < carouselItems.length - 1) {
-      currentIndex += 1;
-      showImage(currentIndex);
-    } else {
-      currentIndex = carouselItems.length - 1;
-      showImage(currentIndex);
+      // Initialize Swiper for image swiping
+      const mySwiper = new Swiper(swiperContainer, {
+        loop: false, // Enable loop to scroll through images infinitely
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
+        },
+      });
     }
-  }
 
-  function showPreviousImage() {
-    if (currentIndex > 0) {
-      currentIndex -= 1;
-      showImage(currentIndex);
-    } else {
-      currentIndex = 0;
-      showImage(currentIndex);
-    }
-  }
-
-  carouselContainer.addEventListener('touchstart', (event) => {
-    startX = event.touches[0].clientX;
-  });
-
-  carouselContainer.addEventListener('touchmove', (event) => {
-    endX = event.touches[0].clientX;
-  });
-
-  carouselContainer.addEventListener('touchend', () => {
-    const diffX = startX - endX;
-
-    if (diffX > sensitivity) {
-      showNextImage();
-    } else if (diffX < -sensitivity) {
-      showPreviousImage();
-    }
-  });
-
-  const firstImage = carouselContainer.querySelector('.carousel-item');
-  if (firstImage) {
-    firstImage.style.display = 'block';
-  }
-
-  listItem.appendChild(carouselContainer);
-  }
-
-  // Function to create list items with carousels in the gallery section
-  function createListItemsForGallery(images) {
-    const galleryContainer = document.getElementById('listingsContainer');
-
-    images.forEach(imageSrc => {
-      const listItem = document.createElement('li');
-      listItem.classList.add('section');
-
-      createCarouselForListItem(listItem, images); // Create a carousel within each list item with provided images
-      galleryContainer.appendChild(listItem);
-    });
-  }
-
-  // Function to handle gallery button click
-  function handleGalleryClick() {
-    const galleryButton = document.querySelector('.gallery button');
-    galleryButton.addEventListener('click', function () {
-      const galleryImages = ['x.png', 'y.png', 'z.png']; // Replace with your gallery image URLs
-
+    function createListItemsForGallery(images) {
       const galleryContainer = document.getElementById('listingsContainer');
-      galleryContainer.innerHTML = '';
 
-      createListItemsForGallery(galleryImages);
-    });
-  }
+      images.forEach(imageSrc => {
+        const listItem = document.createElement('li');
+        listItem.classList.add('section');
 
-// Call the function to handle the gallery button click
-handleGalleryClick();
+        createCarouselForListItem(listItem, images);
+        galleryContainer.appendChild(listItem);
+      });
+    }
 
+    function handleGalleryClick() {
+      const galleryButton = document.querySelector('.gallery button');
+      galleryButton.addEventListener('click', function () {
+        const galleryImages = [
+          'x.png', // Replace these with actual image URLs
+          'y.png',
+          'z.png',
+        ];
 
-    // Function to handle contacts button click
+        const galleryContainer = document.getElementById('listingsContainer');
+        galleryContainer.innerHTML = '';
+
+        createListItemsForGallery(galleryImages);
+      });
+    }
+
     function handleContactsClick() {
       const contactsButton = document.querySelector('.contacts button');
       contactsButton.addEventListener('click', function () {
-        galleryContentDisplayed = false; // Reset the gallery flag when Contacts button is clicked
+        galleryContentDisplayed = false;
         if (!originalContentExists) {
-          fetchOriginalListings(); // Render original content if not present
+          fetchOriginalListings();
         } else {
           const listingsContainer = document.getElementById('listingsContainer');
           listingsContainer.innerHTML = '';
-          fetchOriginalListings(); // Clear any images (gallery content) and render original content
+          fetchOriginalListings();
         }
       });
     }
 
-    // Function to clear existing content
     function clearExistingContent() {
       const listingsContainer = document.getElementById('listingsContainer');
-      listingsContainer.innerHTML = ''; // Clear the content of the container
-      originalContentExists = false; // Reset the flag as content is cleared
+      listingsContainer.innerHTML = '';
+      originalContentExists = false;
     }
 
-    // Call the functions to handle button clicks
     handleGalleryClick();
     handleContactsClick();
     window.addEventListener('load', function () {
-      fetchOriginalListings(); // Load original content when the page loads
+      fetchOriginalListings();
     });
   </script>
 </body>
