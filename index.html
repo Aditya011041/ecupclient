@@ -193,10 +193,8 @@
 
         function toggleShortlistImage() {
           if (isShortlistActive) {
-            // If the current image is shortlist_items.svg, change it to Group 10.svg
             shortlistedImage.src = groupImage;
           } else {
-            // If the current image is Group 10.svg or any other image, change it to shortlist_items.svg
             shortlistedImage.src = shortlistImage;
           }
           isShortlistActive = !isShortlistActive;
@@ -265,40 +263,118 @@
       return starsHTML;
     }
 
-    // Function to create image items dynamically
-    function createImageItems(images) {
-      const listingsContainer = document.getElementById('listingsContainer');
-      listingsContainer.innerHTML = ''; // Clear the existing content
+  
+    // Function to create image items dynamically with carousel functionality
+    function createCarouselForListItem(listItem, images) {
+      const carouselContainer = document.createElement('div');
+  carouselContainer.classList.add('carousel-container');
 
-      images.forEach(imageSrc => {
-        const imageItem = document.createElement('li');
-        imageItem.style.padding = '20px';
-        imageItem.style.display = 'flex';
-        imageItem.style.justifyContent = 'space-between';
-        // Set other styles for the image item as needed
+  images.forEach(imageSrc => {
+    const imageItem = document.createElement('div');
+    imageItem.classList.add('carousel-item');
+    imageItem.style.padding = '20px';
+    imageItem.style.display = 'none';
 
-        const imageElement = document.createElement('img');
-        imageElement.src = imageSrc;
-        imageElement.style.width = '100%'; // Set the image width to fill the container
-        imageElement.style.height = '100%'; // Set the image height to fill the container
+    const imageElement = document.createElement('img');
+    imageElement.src = imageSrc;
+    imageElement.style.width = '100%';
+    imageElement.style.height = '100%';
 
-        imageItem.appendChild(imageElement);
-        listingsContainer.appendChild(imageItem);
-      });
+    imageItem.appendChild(imageElement);
+    carouselContainer.appendChild(imageItem);
+  });
+
+  const carouselItems = carouselContainer.querySelectorAll('.carousel-item');
+  let currentIndex = 0;
+  let startX = 0;
+  let endX = 0;
+  const sensitivity = 50;
+
+  function showImage(index) {
+    carouselItems.forEach((item, idx) => {
+      if (idx === index) {
+        item.style.display = 'block';
+      } else {
+        item.style.display = 'none';
+      }
+    });
+  }
+
+  function showNextImage() {
+    if (currentIndex < carouselItems.length - 1) {
+      currentIndex += 1;
+      showImage(currentIndex);
+    } else {
+      currentIndex = carouselItems.length - 1;
+      showImage(currentIndex);
     }
+  }
 
-    // Function to handle gallery button click
-    // Function to handle gallery button click
-    function handleGalleryClick() {
-      const galleryButton = document.querySelector('.gallery button');
-      galleryButton.addEventListener('click', function () {
-        if (!galleryContentDisplayed) {
-          const images = ['x.png', 'y.png', 'z.png'];
-          createImageItems(images);
-          galleryContentDisplayed = true;
-        }
-      });
+  function showPreviousImage() {
+    if (currentIndex > 0) {
+      currentIndex -= 1;
+      showImage(currentIndex);
+    } else {
+      currentIndex = 0;
+      showImage(currentIndex);
     }
+  }
+
+  carouselContainer.addEventListener('touchstart', (event) => {
+    startX = event.touches[0].clientX;
+  });
+
+  carouselContainer.addEventListener('touchmove', (event) => {
+    endX = event.touches[0].clientX;
+  });
+
+  carouselContainer.addEventListener('touchend', () => {
+    const diffX = startX - endX;
+
+    if (diffX > sensitivity) {
+      showNextImage();
+    } else if (diffX < -sensitivity) {
+      showPreviousImage();
+    }
+  });
+
+  const firstImage = carouselContainer.querySelector('.carousel-item');
+  if (firstImage) {
+    firstImage.style.display = 'block';
+  }
+
+  listItem.appendChild(carouselContainer);
+  }
+
+  // Function to create list items with carousels in the gallery section
+  function createListItemsForGallery(images) {
+    const galleryContainer = document.getElementById('listingsContainer');
+
+    images.forEach(imageSrc => {
+      const listItem = document.createElement('li');
+      listItem.classList.add('section');
+
+      createCarouselForListItem(listItem, images); // Create a carousel within each list item with provided images
+      galleryContainer.appendChild(listItem);
+    });
+  }
+
+  // Function to handle gallery button click
+  function handleGalleryClick() {
+    const galleryButton = document.querySelector('.gallery button');
+    galleryButton.addEventListener('click', function () {
+      const galleryImages = ['x.png', 'y.png', 'z.png']; // Replace with your gallery image URLs
+
+      const galleryContainer = document.getElementById('listingsContainer');
+      galleryContainer.innerHTML = '';
+
+      createListItemsForGallery(galleryImages);
+    });
+  }
+
+// Call the function to handle the gallery button click
+handleGalleryClick();
+
 
     // Function to handle contacts button click
     function handleContactsClick() {
