@@ -6,7 +6,7 @@
     margin: 0;
     padding: 0;
     font-weight: 400;
-    
+
 }
 
 body {
@@ -15,10 +15,11 @@ body {
     display: flex;
     justify-content: center;
 }
-.title{
+
+.title {
     font-size: 24px;
     /* line-height: 28.56px; */
-    color:  #716966;
+    color: #716966;
     font-weight: 600;
 }
 
@@ -38,7 +39,8 @@ body {
     /* background-color: aqua; */
     display: flex;
     align-items: center;
-    justify-content: space-between; /* Updated to space-between */
+    justify-content: space-between;
+    /* Updated to space-between */
     border-bottom: 0.25px solid #D0D0D0;
     padding-inline: 20px;
 }
@@ -62,10 +64,11 @@ body {
     display: flex;
     justify-content: space-between;
 }
-.part2{
-width: 35%;
-display: flex;
-justify-content: space-evenly;
+
+.part2 {
+    width: 35%;
+    display: flex;
+    justify-content: space-evenly;
 }
 
 button {
@@ -74,7 +77,8 @@ button {
     background: none;
     padding: 0;
 }
-.ulcont > :nth-child(odd) {
+
+.ulcont> :nth-child(odd) {
     background-color: #fffcf2;
 }
 
@@ -87,7 +91,8 @@ button {
     /* top: 163px; */
     border: 0.25px, 0px, 0px, 0px;
 }
-.block2{
+
+.block2 {
     padding: 20px;
     display: flex;
     justify-content: space-between;
@@ -119,7 +124,8 @@ button {
     width: 96px;
     height: 16px;
 }
-.number{
+
+.number {
     font-size: 16px;
     padding-top: 33px;
 }
@@ -137,7 +143,7 @@ button {
     margin-top: 10px;
 }
 
-.content1{
+.content1 {
     font-family: 'Chivo', sans-serif;
     font-weight: 400;
     font-size: 10px;
@@ -150,18 +156,58 @@ button {
     display: flex;
     justify-content: space-between;
 }
-.projects1{
+
+.projects1 {
     display: flex;
     flex-direction: column;
 }
-.count1{
+
+.count1 {
     font-size: 24px;
     font-weight: 600;
     color: #000000;
 }
-.count_title1{
+
+.count_title1 {
     font-size: 10px;
 }
-.section{
+
+.section {
     border-bottom: 0.25px solid #D0D0D0;
+}
+
+.carousel-controls {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.carousel-controls button {
+    padding: 8px 16px;
+    background-color: #f02f2f;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    padding: 4px 3px;
+    margin: 2px 4px;
+}
+
+.carousel-controls button:hover {
+    background-color: #baf800;
+}
+
+.carousel-container {
+    display: flex;
+    overflow: hidden;
+}
+
+.carousel-item {
+    flex: 0 0 auto;
+    width: 100%;
+    transition: transform 0.3s ease-in-out;
+    display: none;
+}
+
+.carousel-item.active {
+    display: block;
 }
