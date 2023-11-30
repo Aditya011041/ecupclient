@@ -309,28 +309,54 @@
     }
 
     function handleGalleryClick() {
-      const galleryButton = document.querySelector('.gallery button');
-      galleryButton.addEventListener('click', function () {
-        const galleryImages = [
-          'x.png', // Replace these with actual image URLs
-          'y.png',
-          'z.png',
-        ];
+  const galleryButton = document.querySelector('.gallery button');
+  galleryButton.addEventListener('click', function () {
+    const galleryImages = [
+      'x.png', 
+      'y.png',
+      'z.png',
+    ];
 
-        const galleryContainer = document.getElementById('listingsContainer');
-        galleryContainer.innerHTML = '';
+    const galleryContainer = document.getElementById('listingsContainer');
+    galleryContainer.innerHTML = '';
 
-        createListItemsForGallery(galleryImages);
-      });
-    }
+    createListItemsForGallery(galleryImages);
 
-    function handleContactsClick() {
-  const contactsButton = document.querySelector('.contacts button');
-  contactsButton.addEventListener('click', function () {
-    location.reload(); // Reload the page
+    // Change the image source to 'Group 10.svg'
+    galleryButton.querySelector('img').src = 'Group 7.svg'; 
   });
 }
 
+    function debounce(func, delay) {
+  let timeoutId;
+  return function () {
+    const context = this;
+    const args = arguments;
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => {
+      func.apply(context, args);
+    }, delay);
+  };
+}
+
+function handleContactsClick() {
+  const contactsButton = document.querySelector('.contacts button');
+  const galleryButton = document.querySelector('.gallery button');
+  const debouncedFetch = debounce(function () {
+    galleryContentDisplayed = false;
+    clearExistingContent();
+    fetchOriginalListings();
+  }, 200); 
+
+  contactsButton.addEventListener('click', function () {
+    const galleryImageSrc = 'Group 7.svg'; 
+    const galleryImage = galleryButton.querySelector('img');
+    if (galleryImage && galleryImage.getAttribute('src').includes(galleryImageSrc)) {
+      galleryImage.setAttribute('src', 'gallery.svg'); 
+    }
+    debouncedFetch();
+  });
+}
     function clearExistingContent() {
       const listingsContainer = document.getElementById('listingsContainer');
       listingsContainer.innerHTML = '';
