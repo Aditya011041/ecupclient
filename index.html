@@ -72,7 +72,6 @@
       data.forEach(item => {
         const listItem = document.createElement('li');
         listItem.classList.add('section');
-
         listItem.innerHTML = `
       <div class="block1">
         <div class="left">
@@ -326,18 +325,11 @@
     }
 
     function handleContactsClick() {
-      const contactsButton = document.querySelector('.contacts button');
-      contactsButton.addEventListener('click', function () {
-        galleryContentDisplayed = false;
-        if (!originalContentExists) {
-          fetchOriginalListings();
-        } else {
-          const listingsContainer = document.getElementById('listingsContainer');
-          listingsContainer.innerHTML = '';
-          fetchOriginalListings();
-        }
-      });
-    }
+  const contactsButton = document.querySelector('.contacts button');
+  contactsButton.addEventListener('click', function () {
+    location.reload(); // Reload the page
+  });
+}
 
     function clearExistingContent() {
       const listingsContainer = document.getElementById('listingsContainer');
